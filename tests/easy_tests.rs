@@ -1,4 +1,4 @@
-use leetcode_rs::easy;
+use rsleetcode::easy;
 
 #[test]
 fn test_two_sum() {
