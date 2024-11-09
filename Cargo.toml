@@ -8,5 +8,8 @@ readme = "README.md"
 description = "Implementations of LeetCode problem solutions in Rust"
 homepage = "https://github.com/LeetCode-Packages/Rust"
 keywords = ["leetcode"]
+exclude = [
+    ".github/*"
+]
 
 [dependencies]
