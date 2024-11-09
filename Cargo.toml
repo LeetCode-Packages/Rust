@@ -2,5 +2,11 @@
 name = "leetcoders"
 version = "0.0.1"
 edition = "2021"
+repository = "https://github.com/LeetCode-Packages/Rust"
+license-file = "LICENSE"
+readme = "README.md"
+description = "Implementations of LeetCode problem solutions in Rust"
+homepage = "https://github.com/LeetCode-Packages/Rust"
+keywords = ["leetcode"]
 
 [dependencies]
