@@ -1,4 +1,4 @@
-use super::utils;
+use super::utils::*;
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -103,20 +103,20 @@ pub fn valid_parentheses(s: String) -> bool {
 }
 
 pub fn merge_two_sorted_lists(
-    list1: Option<Box<utils::ListNode>>,
-    list2: Option<Box<utils::ListNode>>,
-) -> Option<Box<utils::ListNode>> {
+    list1: Option<Box<ListNode>>,
+    list2: Option<Box<ListNode>>,
+) -> Option<Box<ListNode>> {
     match (list1, list2) {
         (None, None) => None,
         (Some(n), None) | (None, Some(n)) => Some(n),
         (Some(list1), Some(list2)) => {
             if list1.val >= list2.val {
-                Some(Box::new(utils::ListNode {
+                Some(Box::new(ListNode {
                     val: list2.val,
                     next: merge_two_sorted_lists(Some(list1), list2.next),
                 }))
             } else {
-                Some(Box::new(utils::ListNode {
+                Some(Box::new(ListNode {
                     val: list1.val,
                     next: merge_two_sorted_lists(list1.next, Some(list2)),
                 }))
@@ -221,9 +221,7 @@ pub fn climbing_stairs(n: i32) -> i32 {
     (0..n).fold((1, 0), |(res, prev), _| (res + prev, res)).0
 }
 
-pub fn remove_duplicates_from_sorted_list(
-    head: Option<Box<utils::ListNode>>,
-) -> Option<Box<utils::ListNode>> {
+pub fn remove_duplicates_from_sorted_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     head.map(|mut ln| {
         let mut cur = ln.as_mut();
         while let Some(next) = cur.next.as_mut() {
@@ -250,9 +248,9 @@ pub fn merge_sorted_array(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n:
     }
 }
 
-pub fn binary_tree_inorder_traversal(root: Option<Rc<RefCell<utils::TreeNode>>>) -> Vec<i32> {
+pub fn binary_tree_inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
     let mut curr = root;
-    let mut stack = Vec::<Rc<RefCell<utils::TreeNode>>>::new();
+    let mut stack = Vec::<Rc<RefCell<TreeNode>>>::new();
     let mut res = vec![];
 
     while curr.is_some() || !stack.is_empty() {
@@ -270,14 +268,11 @@ pub fn binary_tree_inorder_traversal(root: Option<Rc<RefCell<utils::TreeNode>>>)
     res
 }
 
-pub fn same_tree(
-    p: Option<Rc<RefCell<utils::TreeNode>>>,
-    q: Option<Rc<RefCell<utils::TreeNode>>>,
-) -> bool {
+pub fn same_tree(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
     p == q
 }
 
-pub fn symmetric_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> bool {
+pub fn symmetric_tree(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
     if root.is_none() {
         return true;
     }
@@ -301,7 +296,7 @@ pub fn symmetric_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> bool {
     true
 }
 
-pub fn maximum_depth_of_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> i32 {
+pub fn maximum_depth_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     if root.is_none() {
         return 0;
     }
@@ -322,16 +317,14 @@ pub fn maximum_depth_of_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) 
     max_depth
 }
 
-pub fn convert_sorted_array_to_binary_search_tree(
-    nums: Vec<i32>,
-) -> Option<Rc<RefCell<utils::TreeNode>>> {
+pub fn convert_sorted_array_to_binary_search_tree(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
     let n = nums.len();
 
     match n {
         0 => None,
         _ => {
             let m = n / 2;
-            let mut node = utils::TreeNode::new(nums[m]);
+            let mut node = TreeNode::new(nums[m]);
             node.left = convert_sorted_array_to_binary_search_tree(nums[..m].to_vec());
             node.right = convert_sorted_array_to_binary_search_tree(nums[m + 1..].to_vec());
 
@@ -340,7 +333,7 @@ pub fn convert_sorted_array_to_binary_search_tree(
     }
 }
 
-pub fn balanced_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> bool {
+pub fn balanced_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
     let mut dstack = Vec::new();
     let mut stack = Vec::new();
     stack.push((1 as i32, 0 as i32, false, false, root));
@@ -379,7 +372,7 @@ pub fn balanced_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> bool 
     return true;
 }
 
-pub fn minimum_depth_of_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) -> i32 {
+pub fn minimum_depth_of_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     match root {
         Some(node) => {
             let left = minimum_depth_of_binary_tree(node.as_ref().borrow().left.clone());
@@ -393,14 +386,14 @@ pub fn minimum_depth_of_binary_tree(root: Option<Rc<RefCell<utils::TreeNode>>>) 
     }
 }
 
-pub fn path_sum(root: Option<Rc<RefCell<utils::TreeNode>>>, target_sum: i32) -> bool {
+pub fn path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
     root.map_or(false, |root| match &*root.borrow() {
-        &utils::TreeNode {
+        &TreeNode {
             val,
             left: None,
             right: None,
         } => val == target_sum,
-        &utils::TreeNode {
+        &TreeNode {
             val,
             ref left,
             ref right,
@@ -430,11 +423,11 @@ pub fn single_number(nums: Vec<i32>) -> i32 {
 
 // Linked List Cycle - not possible with current ListNode definition
 
-pub fn binary_tree_preorder_traversal(root: Option<Rc<RefCell<utils::TreeNode>>>) -> Vec<i32> {
+pub fn binary_tree_preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
     todo!();
 }
 
-pub fn binary_tree_postorder_traversal(root: Option<Rc<RefCell<utils::TreeNode>>>) -> Vec<i32> {
+pub fn binary_tree_postorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
     todo!();
 }
 
@@ -470,10 +463,7 @@ pub fn happy_number(n: i32) -> bool {
     todo!();
 }
 
-pub fn remove_linked_list_elements(
-    head: Option<Box<utils::ListNode>>,
-    val: i32,
-) -> Option<Box<utils::ListNode>> {
+pub fn remove_linked_list_elements(head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {
     todo!();
 }
 
@@ -481,7 +471,7 @@ pub fn isomorphic_strings(s: String, t: String) -> bool {
     todo!();
 }
 
-pub fn reverse_linked_list(head: Option<Box<utils::ListNode>>) -> Option<Box<utils::ListNode>> {
+pub fn reverse_linked_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     todo!();
 }
 
@@ -493,15 +483,13 @@ pub fn contains_duplicate_ii(nums: Vec<i32>, k: i32) -> bool {
     todo!();
 }
 
-pub fn count_complete_tree_nodes(root: Option<Rc<RefCell<utils::TreeNode>>>) -> i32 {
+pub fn count_complete_tree_nodes(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     todo!();
 }
 
 // Implement Stack using Queues - not applicable
 
-pub fn invert_binary_tree(
-    root: Option<Rc<RefCell<utils::TreeNode>>>,
-) -> Option<Rc<RefCell<utils::TreeNode>>> {
+pub fn invert_binary_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
     todo!();
 }
 
@@ -515,7 +503,7 @@ pub fn power_of_two(n: i32) -> bool {
 
 // Implement Queue using Stacks - not applicable
 
-pub fn palindrome_linked_list(head: Option<Box<utils::ListNode>>) -> bool {
+pub fn palindrome_linked_list(head: Option<Box<ListNode>>) -> bool {
     todo!();
 }
 
